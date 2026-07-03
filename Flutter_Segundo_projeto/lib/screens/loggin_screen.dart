@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:primeiro_projeto/screens/home_screen.dart';
 import 'package:primeiro_projeto/screens/register_screen.dart';
+import 'package:primeiro_projeto/screens/reset_password_modal.dart';
 import 'package:primeiro_projeto/services/auth_services.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -127,6 +127,22 @@ class LoginScreen extends StatelessWidget {
                       },
                       child: Text("If dont have account pls Sign Up"),
                     ),
+                    ///Criamores um espaço para o botão de cadastro
+                      SizedBox(height: 16),
+                      ///botão de redifinir senha
+                      TextButton(
+                        onPressed: () {
+                          ///lógica para redifinir senha
+                          ///temos que ter showDialog para abrir o modal de redifinir senha
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return ResetPasswordModal();
+                            },
+                          );
+                        },
+                        child: Text("Reset Password?"),
+                      ),
                   ],
                 ),
               ),
