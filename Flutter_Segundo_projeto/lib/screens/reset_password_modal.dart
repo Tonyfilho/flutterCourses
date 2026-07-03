@@ -13,12 +13,12 @@ class _ResetPasswordModalState extends State<ResetPasswordModal> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
 
-  AuthServices _authServices = AuthServices();
+  final AuthServices _authServices = AuthServices();
 
   @override
   Widget build(BuildContext context) {
-    ///Obs: O Modelo AlertDialog Fim no meio da tela, e não no topo como o Scaffold, por isso não precisamos 
-    ///colocar um Scaffold dentro do AlertDialog  
+    ///Obs: O Modelo AlertDialog Fim no meio da tela, e não no topo como o Scaffold, por isso não precisamos
+    ///colocar um Scaffold dentro do AlertDialog
     return AlertDialog(
       title: Text("Reset Password"),
       content: Form(
@@ -36,13 +36,52 @@ class _ResetPasswordModalState extends State<ResetPasswordModal> {
             if (value!.isEmpty) {
               return 'Please enter your valid email account';
             }
+
             ///retornaremos NULL caso esta tudo correto, pois o validator precisa retornar uma String ou null
             return null;
           },
-
-
         ),
       ),
+
+      ///teremos um array o actions Tipado
+      actions: <TextButton>[
+        ///1º botão de cancelar
+        TextButton(
+          child: Text("Cancel"),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+
+        ///2º botão de resetar a senha
+        TextButton(
+          onPressed: () {
+            if (_formKey.currentState!.validate()) {
+              ///chamaremos a função de resetar a senha
+              ///quando colocamos require na função temo que passar o paramentro como objeto
+              _authServices.resetPassword(email: _emailController.text).then((
+                String? error,
+              ) {
+                Navigator.of(context).pop();
+                if (error != null) {
+                  final snackBar = SnackBar(
+                    content: Text(error),
+                    backgroundColor: Colors.red,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                } else {
+                  final snackBar = SnackBar(
+                    content: Text("Password reset email sent to ${_emailController.value.text}"),
+                    backgroundColor: Colors.green,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
+              });
+            }
+          },
+          child: Text("Reset Password"),
+        ),
+      ],
     );
   }
 }
