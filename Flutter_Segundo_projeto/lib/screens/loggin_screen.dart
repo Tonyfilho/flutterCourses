@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:primeiro_projeto/helpers/singinWithGoogle.dart';
 import 'package:primeiro_projeto/screens/register_screen.dart';
 import 'package:primeiro_projeto/screens/reset_password_modal.dart';
 import 'package:primeiro_projeto/services/auth_services.dart';
@@ -109,8 +111,16 @@ class LoginScreen extends StatelessWidget {
                     ///temos que por o espaço para começar
                     SizedBox(height: 16),
                     ElevatedButton(
-                      onPressed: () {},
-                      child: Text("Sign In With Goggle"),
+                      onPressed: () {
+                        SignInWithGoogle().signInWithGoogle().then((UserCredential userCredential) {
+                          // Handle successful sign-in
+                          print('Signed in with Google: ${userCredential.user?.displayName}');
+                        }).catchError((error) {
+                          // Handle sign-in error
+                          print('Error signing in with Google: $error');
+                        });
+                      },
+                      child: Text("Sign In With Google"),
                     ),
                     SizedBox(height: 16),
 

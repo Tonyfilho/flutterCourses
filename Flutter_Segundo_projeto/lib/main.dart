@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:primeiro_projeto/screens/roteador_telas.dart';
 
 import 'firebase_options.dart';
@@ -10,6 +11,9 @@ Future<void> main() async {
   ///temos  por para funcionar firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  await GoogleSignIn.instance.initialize(
+    clientId: '42155495380-3foaroa8i9k19ba60afmght57o5ngjl0.apps.googleusercontent.com',
+  );
   runApp(const MyApp());
 }
 
